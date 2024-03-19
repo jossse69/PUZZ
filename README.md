@@ -16,7 +16,7 @@ create anything you can imagine! a platformer? a puzzle game? heck even a 3D gam
 
 ## Getting Started
 first, if you have [Go](https://go.dev/) installed, run this command: </br>
-`go get github.com/jossse69/PUZZ`
+`go get github.com/jossse69/PUZZ` </br>
 this will download all the dependencies, you are all set!
 
 ## Usage
