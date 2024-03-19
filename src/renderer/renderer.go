@@ -55,3 +55,5 @@ func (r *Renderer) Close() {
 	rl.UnloadRenderTexture(*r.Target)
 	rl.CloseWindow()
 }
+
+// methods to draw stuff like text or shapes will be her down the line
