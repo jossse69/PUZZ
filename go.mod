@@ -1,6 +1,6 @@
 module puzz
 
-go 1.22.1
+go 1.23
 
 require (
 	github.com/ebitengine/purego v0.6.1 // indirect
