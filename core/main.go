@@ -27,7 +27,7 @@ func NewGame(gameWidth, gameHeight int, title string) *Game {
 	game := &Game{
 		Renderer: renderer.NewRenderer(gameWidth, gameHeight, title),
 	}
-	game.Load()
+
 	return game
 }
 
