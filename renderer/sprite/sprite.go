@@ -73,6 +73,11 @@ func GetClosestColor(color rl.Color) int {
 	var closestColor int
 	var minDistance float64 = math.MaxFloat64
 
+	// if the color is transparent, return -1
+	if color.A == 0 {
+		return -1
+	}
+
 	for i, paletteColor := range commons.Colors {
 		// Extract the RGB components of the palette color
 		paletteR := uint8((paletteColor & 0xFF0000) >> 16)
