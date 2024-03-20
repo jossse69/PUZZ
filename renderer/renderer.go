@@ -52,10 +52,13 @@ func (r *Renderer) DrawOnScreen() {
 	rl.ClearBackground(rl.Black) // Optional: Clear main window background
 	gameWidth := float32(r.Target.Texture.Width)
 	gameHeight := float32(r.Target.Texture.Height)
-	rl.DrawTexturePro(r.Target.Texture,
-		rl.NewRectangle(0, 0, gameWidth, -gameHeight),
-		rl.NewRectangle((float32(screenWidth)/2)-(gameWidth/2), (float32(screenHeight)/2)-(gameHeight/2), float32(screenWidth), float32(screenHeight)),
-		rl.NewVector2(0, 0), 0, rl.White)
+	// draw the texture on the center of the screen
+	rl.DrawTextureRec(
+		r.Target.Texture,
+		rl.NewRectangle(0, 0, gameWidth, gameHeight),
+		rl.NewVector2(float32(screenWidth)/2-gameWidth/2, float32(screenHeight)/2-gameHeight/2),
+		rl.White,
+	)
 	rl.EndDrawing() // End drawing to the main window
 }
 
