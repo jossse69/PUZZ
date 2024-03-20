@@ -56,11 +56,11 @@ func (r *Renderer) DrawOnScreen() {
 	gameHeight := float32(r.Target.Texture.Height)
 	gameHeightScale := screenHeight / gameHeight // for keeping the aspect ratio while scaling the texture
 	gameWidthScale := screenWidth / gameWidth    // same as above
-	// draw the texture on the center of the screen
+	// draw the texture on the main window
 	rl.DrawTexturePro(
 		r.Target.Texture,
 		rl.NewRectangle(0, 0, gameWidth, gameHeight),
-		rl.NewRectangle((screenWidth-gameWidth)/2, (screenHeight-gameHeight)/2, gameWidthScale, gameHeightScale),
+		rl.NewRectangle(0, 0, gameWidth*gameWidthScale, gameHeight*gameHeightScale),
 		rl.NewVector2(0, 0),
 		0,
 		rl.White,
