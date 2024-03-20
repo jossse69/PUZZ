@@ -52,7 +52,7 @@ func (r *Renderer) DrawOnScreen() {
 	gameHeight := float32(r.Target.Texture.Height)
 	rl.DrawTexturePro(r.Target.Texture,
 		rl.NewRectangle(0, 0, gameWidth, -gameHeight),
-		rl.NewRectangle(0, 0, float32(screenWidth), float32(screenHeight)),
+		rl.NewRectangle((float32(screenWidth)/2)-(gameWidth/2), (float32(screenHeight)/2)-(gameHeight/2), float32(screenWidth), float32(screenHeight)),
 		rl.NewVector2(0, 0), 0, rl.White)
 	rl.EndDrawing() // End drawing to the main window
 }
