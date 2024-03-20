@@ -24,31 +24,48 @@ here is a simple 'Hello World' example:
 ```go
 package main
 
-import "github.com/jossse69/PUZZ" // import the engine
-
-const (
-    // width and height of the game
-    WIDTH = 320
-    HEIGHT = 200
+import (
+	"github.com/jossse69/PUZZ/core" // import the core package 
 )
 
+var game *core.Game // global game variable
+
 func main() {
-    r := puzz.Render.NewRenderer(WIDTH, HEIGHT, "My super duper epic game title") // create a new renderer so we can draw stuff
+	// low res of the screen of 320x240 for retro look. (this a recommended setting)
+	game = core.NewGame(220, 140, "Hello, World!")
 
-    // main loop
-    for {
+	// setup the load, update and draw hooks
+	game.Load = load
+	game.Update = update
+	game.Draw = draw
 
-        r.Clear() // clear the screen for the next frame
+	// finally, run the game
+	game.Run()
+}
 
-        // draw stuff here
-        // example: Draw a string of text
-        r.Print(0, 0, "Hello World!")
+func load() {
+	// Load any game resources here
+}
 
-        r.DrawOnScreen() // draw on the screen
-    }
+func update(dt float32) {
+	// Update game logic here, use dt for time since last frame (useful for frame rate independent movement)
+}
 
-    // don't forget to close the renderer!
-    r.Close()
+func draw() {
+	// draw any elements here
+	// e.g. line for the game rect
+
+	// first clear the screen
+	game.Renderer.Fill(0)
+
+	// draw a line from 0,0 to the top right of the screen
+	game.Renderer.DrawLine(0, 0, int(game.Renderer.Target.Texture.Width), int(game.Renderer.Target.Texture.Height), 6) // id color of 6 is red
+
+	// then a line from 0,0 to the right of the screen
+	game.Renderer.DrawLine(0, 0, int(game.Renderer.Target.Texture.Width), 0, 6)
+
+	// then a line from 0,0 to the top of the screen
+	game.Renderer.DrawLine(0, 0, 0, int(game.Renderer.Target.Texture.Height), 6)
 }
 ```	
 
