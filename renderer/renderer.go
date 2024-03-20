@@ -1,6 +1,8 @@
 package renderer
 
 import (
+	"math"
+
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -109,7 +111,11 @@ func (r *Renderer) Close() {
 // It takes the color as a parameter.
 // No return types.
 func (r *Renderer) Fill(color int) {
-	rl.ClearBackground(PalletIndexToColor(color))
+	for x := 0; x < screenWidth; x++ {
+		for y := 0; y < screenHeight; y++ {
+			r.DrawPixel(x, y, color)
+		}
+	}
 }
 
 func (r *Renderer) PrintText(x, y int, text string, fg int, bg int) {
@@ -123,7 +129,11 @@ func (r *Renderer) PrintText(x, y int, text string, fg int, bg int) {
 func (r *Renderer) DrawRectangle(x, y, width, height int, color int) {
 
 	// draw a rectangle in the texture
-	rl.DrawRectangle(int32(x), int32(y), int32(width), int32(height), PalletIndexToColor(color))
+	for i := x; i < x+width; i++ {
+		for j := y; j < y+height; j++ {
+			r.DrawPixel(i, j, color)
+		}
+	}
 }
 
 // DrawRectangleLines draws a rectangle in the texture.
@@ -132,7 +142,13 @@ func (r *Renderer) DrawRectangle(x, y, width, height int, color int) {
 // No return types.
 func (r *Renderer) DrawRectangleLines(x, y, width, height int, color int) {
 	// draw a rectangle in the texture
-	rl.DrawRectangleLines(int32(x), int32(y), int32(width), int32(height), PalletIndexToColor(color))
+	for i := x; i < x+width; i++ {
+		for j := y; j < y+height; j++ {
+			if i == x || i == x+width-1 || j == y || j == y+height-1 {
+				r.DrawPixel(i, j, color)
+			}
+		}
+	}
 }
 
 // DrawCircle draws a circle in the texture.
@@ -140,8 +156,18 @@ func (r *Renderer) DrawRectangleLines(x, y, width, height int, color int) {
 // It takes the x, y, and radius as parameters.
 // No return types.
 func (r *Renderer) DrawCircle(x, y, radius int, color int) {
-	// draw a circle in the texture
-	rl.DrawCircleV(rl.NewVector2(float32(x), float32(y)), float32(radius), PalletIndexToColor(color))
+	// create a rectangle to interate over the pixels
+	rect := rl.NewRectangle(float32(x-radius), float32(y-radius), float32(radius*2), float32(radius*2))
+
+	// for each pixel in the rectangle
+	for i := 0; i < radius*2; i++ {
+		for j := 0; j < radius*2; j++ {
+			// check if the pixel is in the circle
+			if math.Pow(float64(i-x), 2)+math.Pow(float64(j-y), 2) <= math.Pow(float64(radius), 2) {
+				r.DrawPixel(int(rect.X)+i, int(rect.Y)+j, color)
+			}
+		}
+	}
 }
 
 // DrawCircleLines draws a circle in the texture.
@@ -149,8 +175,13 @@ func (r *Renderer) DrawCircle(x, y, radius int, color int) {
 // It takes the x, y, and radius as parameters.
 // No return types.
 func (r *Renderer) DrawCircleLines(x, y, radius int, color int) {
+	// calculate the number of points to draw
+	points := int(math.Ceil(math.Sqrt(float64(radius * radius * 4))))
+
 	// draw a circle in the texture
-	rl.DrawCircleLines(int32(x), int32(y), float32(radius), PalletIndexToColor(color))
+	for i := 0; i < points; i++ {
+		r.DrawPixel(x+int(math.Cos(float64(i)*2*math.Pi/float64(points))*float64(radius)), y+int(math.Sin(float64(i)*2*math.Pi/float64(points))*float64(radius)), color)
+	}
 }
 
 // DrawLine draws a line in the texture.
@@ -158,8 +189,37 @@ func (r *Renderer) DrawCircleLines(x, y, radius int, color int) {
 // It takes the x1, y1, x2, y2, and color as parameters.
 // No return types.
 func (r *Renderer) DrawLine(x1, y1, x2, y2 int, color int) {
-	// draw a line in the texture
-	rl.DrawLine(int32(x1), int32(y1), int32(x2), int32(y2), PalletIndexToColor(color))
+	// draw a line in the texture using the bresenham algorithm
+	dx := x2 - x1
+	dy := y2 - y1
+	x := x1
+	y := y1
+	sx, sy := 1, 1
+	if dx < 0 {
+		sx = -1
+		dx = -dx
+	}
+	if dy < 0 {
+		sy = -1
+		dy = -dy
+	}
+	err := dx - dy
+
+	for {
+		r.DrawPixel(x, y, color)
+		if x == x2 && y == y2 {
+			break
+		}
+		e2 := 2 * err
+		if e2 > -dy {
+			err -= dy
+			x += sx
+		}
+		if e2 < dx {
+			err += dx
+			y += sy
+		}
+	}
 }
 
 // DrawPixel draws a pixel in the texture.
@@ -176,11 +236,33 @@ func (r *Renderer) DrawPixel(x, y int, color int) {
 // It takes the x1, y1, x2, y2, x3, y3, and color as parameters.
 // No return types.
 func (r *Renderer) DrawTriangle(x1, y1, x2, y2, x3, y3 int, color int) {
-	// draw a triangle in the texture
-	v1 := rl.NewVector2(float32(x1), float32(y1))
-	v2 := rl.NewVector2(float32(x2), float32(y2))
-	v3 := rl.NewVector2(float32(x3), float32(y3))
-	rl.DrawTriangle(v1, v2, v3, PalletIndexToColor(color))
+	// Sort the three points from top to bottom
+	if y1 > y2 {
+		x1, x2, y1, y2 = x2, x1, y2, y1
+	}
+	if y1 > y3 {
+		x1, x3, y1, y3 = x3, x1, y3, y1
+	}
+	if y2 > y3 {
+		x2, x3, y2, y3 = x3, x2, y3, y2
+	}
+
+	// Calculate the slopes of the two sides of the triangle
+	slope1 := float64(x2-x1) / float64(y2-y1)
+	slope2 := float64(x3-x1) / float64(y3-y1)
+
+	// Initialize the starting and ending points for each scanline
+	xStart := x1
+	xEnd := x1
+
+	// Fill in the pixels for each scanline
+	for y := y1; y <= y3; y++ {
+		for x := xStart; x <= xEnd; x++ {
+			r.DrawPixel(x, y, color) // Set the pixel color
+		}
+		xStart += int(slope1)
+		xEnd += int(slope2)
+	}
 }
 
 // DrawTriangle draws a triangle in the texture.
@@ -188,9 +270,8 @@ func (r *Renderer) DrawTriangle(x1, y1, x2, y2, x3, y3 int, color int) {
 // It takes the x1, y1, x2, y2, x3, y3, and color as parameters.
 // No return types.
 func (r *Renderer) DrawTriangleLines(x1, y1, x2, y2, x3, y3 int, color int) {
-	// draw a triangle in the texture
-	v1 := rl.NewVector2(float32(x1), float32(y1))
-	v2 := rl.NewVector2(float32(x2), float32(y2))
-	v3 := rl.NewVector2(float32(x3), float32(y3))
-	rl.DrawTriangleLines(v1, v2, v3, PalletIndexToColor(color))
+	// draw the lines that make up the triangle
+	r.DrawLine(x1, y1, x2, y2, color)
+	r.DrawLine(x2, y2, x3, y3, color)
+	r.DrawLine(x3, y3, x1, y1, color)
 }
