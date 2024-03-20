@@ -52,19 +52,25 @@ func (r *Renderer) DrawOnScreen() {
 
 	rl.BeginDrawing()            // Start drawing to the main window
 	rl.ClearBackground(rl.Black) // Optional: Clear main window background
+
 	gameWidth := float32(r.Target.Texture.Width)
 	gameHeight := float32(r.Target.Texture.Height)
-	gameHeightScale := -screenHeight / gameHeight // for keeping the aspect ratio while scaling the texture
-	gameWidthScale := screenWidth / gameWidth     // same as above
-	// draw the texture on the main window
+	gameHeightScale := screenHeight / gameHeight // for keeping the aspect ratio while scaling the texture
+	gameWidthScale := screenWidth / gameWidth    // same as above
+
+	// Flip the texture vertically
+	sourceRect := rl.NewRectangle(0, gameHeight, gameWidth, -gameHeight)
+
+	// draw the flipped texture on the main window
 	rl.DrawTexturePro(
 		r.Target.Texture,
-		rl.NewRectangle(0, 0, gameWidth, gameHeight),
-		rl.NewRectangle(0, gameHeightScale*screenHeight, gameWidth*gameWidthScale, gameHeight*gameHeightScale),
+		sourceRect,
+		rl.NewRectangle(0, 0, gameWidth*gameWidthScale, gameHeight*gameHeightScale),
 		rl.NewVector2(0, 0),
 		0,
 		rl.White,
 	)
+
 	rl.EndDrawing() // End drawing to the main window
 }
 
