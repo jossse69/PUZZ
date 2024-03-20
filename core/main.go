@@ -38,19 +38,21 @@ func (game *Game) Run() {
 	}
 	for !rl.WindowShouldClose() {
 		dt := rl.GetFrameTime()
-		if game.Update != nil {
-			game.Update(dt)
-		}
-		if game.Draw == nil {
-			panic("Update function is not defined! Please define it!")
-		}
-		game.Renderer.StartDrawing()
-		if game.Draw != nil {
-			game.Draw()
-		}
+
+		// Check if the Update function is defined before calling it
 		if game.Update == nil {
-			panic("Draw function is not defined! Please define it!")
+			panic("Update function is not defined! Please define it before running the game.")
 		}
+		game.Update(dt)
+
+		game.Renderer.StartDrawing()
+
+		// Check if the Draw function is defined before attempting to call it
+		if game.Draw == nil {
+			panic("Draw function is not defined! Please define it before running the game.")
+		}
+		game.Draw()
+
 		game.Renderer.DrawOnScreen()
 	}
 
