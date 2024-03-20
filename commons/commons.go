@@ -1,0 +1,21 @@
+package commons
+
+// Colors is a list of colors. taken form the anb16 palette (https://lospec.com/palette-list/anb16)
+var Colors = []int{
+	0x0a080d,
+	0x697594,
+	0xdfe9f5,
+	0xf7aaa8,
+	0xd4689a,
+	0x782c96,
+	0xe83562,
+	0xf2825c,
+	0xffc76e,
+	0x88c44d,
+	0x3f9e59,
+	0x373461,
+	0x4854a8,
+	0x7199d9,
+	0x9e5252,
+	0x4d2536,
+}

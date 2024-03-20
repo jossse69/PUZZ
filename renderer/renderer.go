@@ -4,6 +4,8 @@ import (
 	"math"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
+	"github.com/jossse69/PUZZ/commons"
+	"github.com/jossse69/PUZZ/renderer/sprite"
 )
 
 type Renderer struct {
@@ -68,30 +70,8 @@ func (r *Renderer) DrawOnScreen() {
 // Returns the corresponding color.
 func PalletIndexToColor(index int) rl.Color {
 
-	// taken form the anb16 palette (https://lospec.com/palette-list/anb16)
-
-	// the list of colors
-	colors := []int{
-		0x0a080d,
-		0x697594,
-		0xdfe9f5,
-		0xf7aaa8,
-		0xd4689a,
-		0x782c96,
-		0xe83562,
-		0xf2825c,
-		0xffc76e,
-		0x88c44d,
-		0x3f9e59,
-		0x373461,
-		0x4854a8,
-		0x7199d9,
-		0x9e5252,
-		0x4d2536,
-	}
-
 	// create a color from the index
-	selectedColor := colors[index]
+	selectedColor := commons.Colors[index]
 	color := rl.NewColor(uint8(selectedColor>>16), uint8(selectedColor>>8), uint8(selectedColor), 255)
 
 	return color
@@ -108,6 +88,21 @@ func (r *Renderer) Close() {
 }
 
 // methods to draw stuff like text or shapes
+
+// DrawSprite draws a sprite in the texture.
+//
+// It takes the x, y, and the sprite as parameters.
+// No return types.
+func (r *Renderer) DrawSprite(x, y int, spr *sprite.Sprite) {
+	for j := 0; j < spr.Height; j++ {
+		for i := 0; i < spr.Width; i++ {
+			colorID := spr.GetPixel(i, j)
+			if colorID != -1 { // -1 is transparent
+				r.DrawPixel(x+i, y+j, colorID)
+			}
+		}
+	}
+}
 
 // Fill fills the screen with a color.
 //
