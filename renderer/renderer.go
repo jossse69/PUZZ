@@ -35,10 +35,8 @@ func NewRenderer(gameWidth, gameHeight int, title string) *Renderer {
 // No parameters.
 // No return types.
 func (r *Renderer) StartDrawing() {
-	rl.BeginDrawing()
-	rl.ClearBackground(rl.Black)
-	rl.BeginTextureMode(*r.Target)
-	rl.ClearBackground(rl.Black)
+	rl.BeginTextureMode(*r.Target) // Start drawing to the render texture
+	rl.ClearBackground(rl.Black)   // Clear render texture background
 }
 
 // DrawOnScreen draws the renderer on the screen.
@@ -46,13 +44,17 @@ func (r *Renderer) StartDrawing() {
 // No parameters.
 // No return types.
 func (r *Renderer) DrawOnScreen() {
+	rl.EndTextureMode() // End drawing to the render texture
+
+	rl.BeginDrawing()            // Start drawing to the main window
+	rl.ClearBackground(rl.Black) // Optional: Clear main window background
 	gameWidth := float32(r.Target.Texture.Width)
 	gameHeight := float32(r.Target.Texture.Height)
 	rl.DrawTexturePro(r.Target.Texture,
 		rl.NewRectangle(0, 0, gameWidth, -gameHeight),
 		rl.NewRectangle(0, 0, float32(screenWidth), float32(screenHeight)),
 		rl.NewVector2(0, 0), 0, rl.White)
-	rl.EndDrawing()
+	rl.EndDrawing() // End drawing to the main window
 }
 
 // PalletIndexToColor converts a pallet index to a color.
@@ -60,23 +62,7 @@ func (r *Renderer) DrawOnScreen() {
 // It takes the index of the color in the pallet.
 // Returns the corresponding color.
 func PalletIndexToColor(index int) rl.Color {
-	// pallet of the engine:
-	// 0 - #0a080d
-	// 1 - #697594
-	// 2 - #dfe9f5
-	// 3 - #f7aaa8
-	// 4 - #d4689a
-	// 5 - #782c96
-	// 6 - #e83562
-	// 7 - #f2825c
-	// 8 - #ffc76e
-	// 8 - #88c44d
-	// 9 - #3f9e59
-	// 10 - #373461
-	// 11 - #4854a8
-	// 12 - #7199d9
-	// 13 - #9e5252
-	// 14 - #4d2536
+
 	// taken form the anb16 palette (https://lospec.com/palette-list/anb16)
 
 	// the list of colors
