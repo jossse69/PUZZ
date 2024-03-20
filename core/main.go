@@ -33,12 +33,24 @@ func NewGame(gameWidth, gameHeight int, title string) *Game {
 
 // Run starts the main game loop.
 func (game *Game) Run() {
-	game.Load()
+	if game.Load != nil {
+		game.Load()
+	}
 	for !rl.WindowShouldClose() {
 		dt := rl.GetFrameTime()
-		game.Update(dt)
+		if game.Update != nil {
+			game.Update(dt)
+		}
+		if game.Draw == nil {
+			panic("Update function is not defined! Please define it!")
+		}
 		game.Renderer.StartDrawing()
-		game.Draw()
+		if game.Draw != nil {
+			game.Draw()
+		}
+		if game.Update == nil {
+			panic("Draw function is not defined! Please define it!")
+		}
 		game.Renderer.DrawOnScreen()
 	}
 
