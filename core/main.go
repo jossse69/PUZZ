@@ -33,6 +33,7 @@ func NewGame(gameWidth, gameHeight int, title string) *Game {
 
 // Run starts the main game loop.
 func (game *Game) Run() {
+	game.Load()
 	for !rl.WindowShouldClose() {
 		dt := rl.GetFrameTime()
 		game.Update(dt)
