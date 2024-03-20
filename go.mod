@@ -1,4 +1,4 @@
-module puzz
+module github.com/jossse69/PUZZ
 
 go 1.22.1
 
