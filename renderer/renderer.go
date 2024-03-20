@@ -108,11 +108,11 @@ func (r *Renderer) Close() {
 //
 // It takes the color as a parameter.
 // No return types.
-func Fill(color int) {
+func (r *Renderer) Fill(color int) {
 	rl.ClearBackground(PalletIndexToColor(color))
 }
 
-func PrintText(x, y int, text string, fg int, bg int) {
+func (r *Renderer) PrintText(x, y int, text string, fg int, bg int) {
 	// draw sprites of text fonts here
 }
 
@@ -120,7 +120,7 @@ func PrintText(x, y int, text string, fg int, bg int) {
 //
 // It takes the x, y, width, height, and color as parameters.
 // No return types.
-func DrawRectangle(x, y, width, height int, color int) {
+func (r *Renderer) DrawRectangle(x, y, width, height int, color int) {
 
 	// draw a rectangle in the texture
 	rl.DrawRectangle(int32(x), int32(y), int32(width), int32(height), PalletIndexToColor(color))
@@ -130,7 +130,7 @@ func DrawRectangle(x, y, width, height int, color int) {
 //
 // It takes the x, y, width, height, and color as parameters.
 // No return types.
-func DrawRectangleLines(x, y, width, height int, color int) {
+func (r *Renderer) DrawRectangleLines(x, y, width, height int, color int) {
 	// draw a rectangle in the texture
 	rl.DrawRectangleLines(int32(x), int32(y), int32(width), int32(height), PalletIndexToColor(color))
 }
@@ -139,7 +139,7 @@ func DrawRectangleLines(x, y, width, height int, color int) {
 //
 // It takes the x, y, and radius as parameters.
 // No return types.
-func DrawCircle(x, y, radius int, color int) {
+func (r *Renderer) DrawCircle(x, y, radius int, color int) {
 	// draw a circle in the texture
 	rl.DrawCircleV(rl.NewVector2(float32(x), float32(y)), float32(radius), PalletIndexToColor(color))
 }
@@ -148,7 +148,7 @@ func DrawCircle(x, y, radius int, color int) {
 //
 // It takes the x, y, and radius as parameters.
 // No return types.
-func DrawCircleLines(x, y, radius int, color int) {
+func (r *Renderer) DrawCircleLines(x, y, radius int, color int) {
 	// draw a circle in the texture
 	rl.DrawCircleLines(int32(x), int32(y), float32(radius), PalletIndexToColor(color))
 }
@@ -157,7 +157,7 @@ func DrawCircleLines(x, y, radius int, color int) {
 //
 // It takes the x1, y1, x2, y2, and color as parameters.
 // No return types.
-func DrawLine(x1, y1, x2, y2 int, color int) {
+func (r *Renderer) DrawLine(x1, y1, x2, y2 int, color int) {
 	// draw a line in the texture
 	rl.DrawLine(int32(x1), int32(y1), int32(x2), int32(y2), PalletIndexToColor(color))
 }
@@ -166,7 +166,7 @@ func DrawLine(x1, y1, x2, y2 int, color int) {
 //
 // It takes the x, y, and color as parameters.
 // No return types.
-func DrawPixel(x, y int, color int) {
+func (r *Renderer) DrawPixel(x, y int, color int) {
 	// draw a pixel in the texture
 	rl.DrawPixel(int32(x), int32(y), PalletIndexToColor(color))
 }
@@ -175,7 +175,7 @@ func DrawPixel(x, y int, color int) {
 //
 // It takes the x1, y1, x2, y2, x3, y3, and color as parameters.
 // No return types.
-func DrawTriangle(x1, y1, x2, y2, x3, y3 int, color int) {
+func (r *Renderer) DrawTriangle(x1, y1, x2, y2, x3, y3 int, color int) {
 	// draw a triangle in the texture
 	v1 := rl.NewVector2(float32(x1), float32(y1))
 	v2 := rl.NewVector2(float32(x2), float32(y2))
@@ -187,7 +187,7 @@ func DrawTriangle(x1, y1, x2, y2, x3, y3 int, color int) {
 //
 // It takes the x1, y1, x2, y2, x3, y3, and color as parameters.
 // No return types.
-func DrawTriangleLines(x1, y1, x2, y2, x3, y3 int, color int) {
+func (r *Renderer) DrawTriangleLines(x1, y1, x2, y2, x3, y3 int, color int) {
 	// draw a triangle in the texture
 	v1 := rl.NewVector2(float32(x1), float32(y1))
 	v2 := rl.NewVector2(float32(x2), float32(y2))
