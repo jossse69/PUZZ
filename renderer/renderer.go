@@ -60,7 +60,7 @@ func (r *Renderer) DrawOnScreen() {
 	rl.DrawTexturePro(
 		r.Target.Texture,
 		rl.NewRectangle(0, 0, gameWidth, gameHeight),
-		rl.NewRectangle(0, -gameHeight*gameHeightScale, gameWidth*gameWidthScale, gameHeight*gameHeightScale),
+		rl.NewRectangle(0, gameHeightScale*screenHeight, gameWidth*gameWidthScale, gameHeight*gameHeightScale),
 		rl.NewVector2(0, 0),
 		0,
 		rl.White,
