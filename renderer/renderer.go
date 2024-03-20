@@ -30,15 +30,22 @@ func NewRenderer(gameWidth, gameHeight int, title string) *Renderer {
 	}
 }
 
+// StartDrawing is a function that starts the drawing process.
+//
+// No parameters.
+// No return types.
+func (r *Renderer) StartDrawing() {
+	rl.BeginDrawing()
+	rl.ClearBackground(rl.Black)
+	rl.BeginTextureMode(*r.Target)
+	rl.ClearBackground(rl.Black)
+}
+
 // DrawOnScreen draws the renderer on the screen.
 //
 // No parameters.
 // No return types.
 func (r *Renderer) DrawOnScreen() {
-	rl.BeginDrawing()
-	rl.ClearBackground(rl.Black)
-	rl.BeginTextureMode(*r.Target)
-	rl.ClearBackground(rl.Black)
 	gameWidth := float32(r.Target.Texture.Width)
 	gameHeight := float32(r.Target.Texture.Height)
 	rl.DrawTexturePro(r.Target.Texture,
