@@ -54,8 +54,8 @@ func (r *Renderer) DrawOnScreen() {
 	rl.ClearBackground(rl.Black) // Optional: Clear main window background
 	gameWidth := float32(r.Target.Texture.Width)
 	gameHeight := float32(r.Target.Texture.Height)
-	gameHeightScale := screenHeight / gameHeight // for keeping the aspect ratio while scaling the texture
-	gameWidthScale := screenWidth / gameWidth    // same as above
+	gameHeightScale := -screenHeight / gameHeight // for keeping the aspect ratio while scaling the texture
+	gameWidthScale := screenWidth / gameWidth     // same as above
 	// draw the texture on the main window
 	rl.DrawTexturePro(
 		r.Target.Texture,
