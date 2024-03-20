@@ -5,6 +5,7 @@ import (
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 	"github.com/jossse69/PUZZ/commons"
+	"github.com/jossse69/PUZZ/renderer/font"
 	"github.com/jossse69/PUZZ/renderer/sprite"
 )
 
@@ -126,8 +127,21 @@ func (r *Renderer) Fill(color int) {
 	}
 }
 
-func (r *Renderer) PrintText(x, y int, text string, fg int, bg int) {
-	// draw sprites of text fonts here
+func (r *Renderer) DrawText(f *font.Font, x, y int, text string) {
+	for i, char := range text {
+		if char < f.FirstChar {
+			continue // Skip characters not represented in the font
+		}
+		charIndex := int(char - f.FirstChar)
+		srcX := (charIndex % f.CharsPerRow) * f.CharWidth
+		srcY := (charIndex / f.CharsPerRow) * f.CharHeight
+
+		// Crop the sprite to the character
+		spr := f.Sprite.Crop(srcX, srcY, f.CharWidth, f.CharHeight)
+
+		// Draw the sprite
+		r.DrawSprite(x+i*f.CharWidth, y, spr)
+	}
 }
 
 // DrawRectangle draws a rectangle in the texture.
