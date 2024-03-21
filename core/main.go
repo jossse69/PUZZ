@@ -2,13 +2,16 @@ package core
 
 import (
 	rl "github.com/gen2brain/raylib-go/raylib"
+	"github.com/jossse69/PUZZ/ecs"
 	"github.com/jossse69/PUZZ/renderer"
 )
 
 // Game represents the core engine structure.
 type Game struct {
-	Renderer *renderer.Renderer
-	// Add other core components here, such as Audio, Input, etc.
+	Renderer   *renderer.Renderer
+	Systems    *ecs.SystemManager
+	Entities   *ecs.EntityManager
+	Components *ecs.ComponentManager
 
 	// Load calls once when the game starts, useful for loading resources.
 	Load func()
@@ -25,7 +28,10 @@ type Game struct {
 func NewGame(gameWidth, gameHeight int, title string) *Game {
 	// Initialize the Raylib window and other settings here if not already done in Renderer.
 	game := &Game{
-		Renderer: renderer.NewRenderer(gameWidth, gameHeight, title),
+		Renderer:   renderer.NewRenderer(gameWidth, gameHeight, title),
+		Systems:    ecs.NewSystemManager(),
+		Entities:   ecs.NewEntityManager(),
+		Components: ecs.NewComponentManager(),
 	}
 
 	return game
