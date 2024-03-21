@@ -1,12 +1,17 @@
 package renderer
 
 import (
+	"io"
 	"math"
+
+	"strings"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 	"github.com/jossse69/PUZZ/commons"
 	"github.com/jossse69/PUZZ/renderer/font"
 	"github.com/jossse69/PUZZ/renderer/sprite"
+	"golang.org/x/text/encoding/charmap"
+	"golang.org/x/text/transform"
 )
 
 type Renderer struct {
@@ -128,20 +133,26 @@ func (r *Renderer) Fill(color int) {
 }
 
 func (r *Renderer) DrawText(f *font.Font, x, y int, text string) {
-	for i, char := range text {
-		if char < f.FirstChar {
+	// Convert the string from UTF-8 to CP437
+	reader := transform.NewReader(strings.NewReader(text), charmap.CodePage437.NewEncoder())
+	cp437Text, _ := io.ReadAll(reader)
+
+	for i, char := range cp437Text {
+		charIndex := int(char)
+		// Assuming you've adjusted the character map to start from the correct index
+		// and your sprite sheet matches the CP437 layout.
+		if charIndex < 0 {
 			continue // Skip characters not represented in the font
 		}
-		charIndex := int(char - f.FirstChar)
 		srcX := (charIndex % f.CharsPerRow) * f.CharWidth
 		srcY := (charIndex / f.CharsPerRow) * f.CharHeight
 
-		// Crop the sprite to the character
-		spr := f.Sprite.Crop(srcX, srcY, f.CharWidth, f.CharHeight)
-
+		// Crop the sprite to the correct size
+		spriteCropped := f.Sprite.Crop(srcX, srcY, f.CharWidth, f.CharHeight)
 		// Draw the sprite
-		r.DrawSprite(x+i*f.CharWidth, y, spr)
+		r.DrawSprite(x+i*f.CharWidth, y, spriteCropped)
 	}
+
 }
 
 // DrawRectangle draws a rectangle in the texture.

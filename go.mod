@@ -9,4 +9,5 @@ require (
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20240307211618-a69d953ea142 // indirect
 	github.com/veandco/go-sdl2 v0.4.38 // indirect
 	golang.org/x/sys v0.18.0 // indirect
+	golang.org/x/text v0.14.0 // indirect
 )
