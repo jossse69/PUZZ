@@ -86,7 +86,7 @@ func Load() {
 }
 ```
 for this tutorial we will use a font that is made in the `assets` folder. so lets create a new file called `assets/font.png` and copy this image into it:
-![image](assets/font.png)
+[font](https://github.com/jossse69/PUZZ/blob/main/assets/font.png)
 
 When making PUZZ fonts, your fonts must be in the Code Page 437 format. PUZZ already handles this, but your font needs to have a trasnsparent background, and your fonts also need to have a white foreground. you can find good fonts in the dwarf fortress wiki's tileset repository [here](https://dwarffortresswiki.org/Tileset_repository), you will need to edit them for tings like the background and the white foreground, but that should be enough. <br/>
 
