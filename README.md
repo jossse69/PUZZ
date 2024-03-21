@@ -55,7 +55,7 @@ func load() {
  // load the font
  // note, you need to use a Codepage 437 font for this, you can find good ones in the dwarf fortress wiki's tileset repository: https://dwarffortresswiki.org/Tileset_repository
  // making your own font is also possible if you want!
- // the font's background is transparent, so if you are editing ot drawing a font, you need to use a transparent background
+ // the font's background is transparent, so if you are editing or drawing a font, you need to use a transparent background
  testFont = font.LoadFontFromImage("Zaratustra_msx_transparent.png", 8, 8, 16, rune(' '))
 }
 
