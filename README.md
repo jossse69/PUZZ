@@ -25,13 +25,19 @@ here is a simple 'Hello World' example:
 package main
 
 import (
- "github.com/jossse69/PUZZ/core" // import the core package 
+ "github.com/jossse69/PUZZ/core"          // import the core package
+ "github.com/jossse69/PUZZ/renderer/font" // import the font package
 )
 
-var game *core.Game // global game variable
+var (
+ game *core.Game // global game variable
+
+ // a simple font variable for the text
+ testFont *font.Font
+)
 
 func main() {
- // low res of the screen of 320x240 for retro look. (this a recommended setting)
+ // low res of the screen of 320x240 for retro look. (this a recommended setting, but you can change it if you want)
  game = core.NewGame(220, 140, "Hello, World!")
 
  // setup the load, update and draw hooks
@@ -45,6 +51,12 @@ func main() {
 
 func load() {
  // Load any game resources here
+
+ // load the font
+ // note, you need to use a Codepage 437 font for this, you can find good ones in the dwarf fortress wiki's tileset repository: https://dwarffortresswiki.org/Tileset_repository
+ // making your own font is also possible if you want!
+ // the font's background is transparent, so if you are editing ot drawing a font, you need to use a transparent background
+ testFont = font.LoadFontFromImage("Zaratustra_msx_transparent.png", 8, 8, 16, rune(' '))
 }
 
 func update(dt float32) {
@@ -53,20 +65,15 @@ func update(dt float32) {
 
 func draw() {
  // draw any elements here
- // e.g. line for the game rect
+ // here is an example of drawing a string of text
 
  // first clear the screen
  game.Renderer.Fill(0)
 
- // draw a line from 0,0 to the top right of the screen
- game.Renderer.DrawLine(0, 0, int(game.Renderer.Target.Texture.Width), int(game.Renderer.Target.Texture.Height), 6) // id color of 6 is red
-
- // then a line from 0,0 to the right of the screen
- game.Renderer.DrawLine(0, 0, int(game.Renderer.Target.Texture.Width), 0, 6)
-
- // then a line from 0,0 to the top of the screen
- game.Renderer.DrawLine(0, 0, 0, int(game.Renderer.Target.Texture.Height), 6)
+ // draw the said text
+ game.Renderer.DrawText(testFont, 0, 0, "Hello, World!")
 }
+
 ``` 
 
 want to know more? check out the [docs](https://github.com/jossse69/PUZZ/tree/master/docs) for more information! :D
