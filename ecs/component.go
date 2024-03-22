@@ -34,3 +34,21 @@ func (manager *ComponentManager) GetComponent(entity Entity, componentName strin
 func getType(myvar interface{}) string {
 	return fmt.Sprintf("%T", myvar)
 }
+
+// GetEntitiesWithComponents returns a list of entities with all the specified components.
+func (manager *ComponentManager) GetEntitiesWithComponents(componentNames ...string) []Entity {
+	entities := make([]Entity, 0)
+	for entity, components := range manager.components {
+		match := true
+		for _, componentName := range componentNames {
+			if _, ok := components[componentName]; !ok {
+				match = false
+				break
+			}
+		}
+		if match {
+			entities = append(entities, entity)
+		}
+	}
+	return entities
+}

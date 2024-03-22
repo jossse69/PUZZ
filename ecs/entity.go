@@ -18,3 +18,7 @@ func (manager *EntityManager) NewEntity() Entity {
 	manager.entities[manager.lastID] = true
 	return manager.lastID
 }
+
+func (manager *EntityManager) DestroyEntity(entity Entity) {
+	delete(manager.entities, entity)
+}
